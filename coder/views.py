@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
 from coder.forms import *
+from coder.models import Tienda
+from django.db.models import Q
+
 
 def index(request):
     return render(request,"coder/index.html")
@@ -36,3 +39,16 @@ def crear_tienda(request):
         form = TiendaForm()
 
     return render(request, "coder/tienda_form.html", {"form": form})
+
+def lista_tiendas(request):
+    q = request.GET.get('q', '').strip()
+    qs = Tienda.objects.all()
+    if q:
+        qs = qs.filter(
+            Q(nombre__icontains=q) |
+            Q(zona__icontains=q) |
+            Q(direccion__icontains=q) |
+            Q(telefono__icontains=q)
+        )
+    tiendas = qs.order_by('nombre')  # O '-id' si prefieres las más recientes
+    return render(request, 'coder/tienda_list.html', {'tiendas': tiendas, 'query': q})

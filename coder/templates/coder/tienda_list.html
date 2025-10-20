@@ -1,0 +1,51 @@
+{% extends "coder/index.html" %}
+{% block titulo %}Tiendas{% endblock %}
+
+{% block contenido %}
+<div class="container py-4">
+  <h2 class="mb-3">Tiendas</h2>
+
+  <!-- Buscador -->
+  <form method="get" class="row g-2 mb-3">
+    <div class="col-sm-6 col-md-4">
+      <input class="form-control" type="text" name="q" value="{{ query|default:'' }}"
+             placeholder="Buscar tienda (nombre, zona, dirección, teléfono)...">
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-primary" type="submit">
+        <i class="bi bi-search"></i> Buscar
+      </button>
+      <a class="btn btn-outline-secondary" href="{% url 'tienda_list' %}">Limpiar</a>
+    </div>
+  </form>
+
+  <div class="table-responsive">
+    <table class="table table-sm table-hover align-middle">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Zona</th>
+          <th>Dirección</th>
+          <th>Teléfono</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for t in tiendas %}
+        <tr>
+          <td>{{ t.nombre }}</td>
+          <td>{{ t.zona }}</td>
+          <td>{{ t.direccion }}</td>
+          <td>{{ t.telefono }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" class="text-muted">
+            No se encontraron tiendas{% if query %} para “{{ query }}”{% endif %}.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

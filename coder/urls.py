@@ -1,9 +1,10 @@
 from django.urls import path
-from .views import index, crear_cliente, crear_producto, crear_tienda
+from .views import index, crear_cliente, crear_producto, crear_tienda, lista_tiendas
 
 urlpatterns = [
     path("", index , name="index"),
     path("cliente/nuevo", crear_cliente, name="cliente_form"),
     path("producto/nuevo", crear_producto, name="producto_form"),
     path("tienda/nuevo", crear_tienda, name="tienda_form"),
+    path('tiendas/', lista_tiendas, name='tienda_list'),
 ]
