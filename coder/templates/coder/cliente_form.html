@@ -1,0 +1,25 @@
+{% extends "coder/index.html" %}
+
+{% block titulo %} Nuevo Cliente {%endblock%}
+
+{%block contenido%}
+
+<form method="POST" class="w-50 mx-auto mt-4 p-4 border rounded shadow-sm bg-white">
+    {% csrf_token %}
+
+    <h3 class="text-center mb-4 text-primary fw-bold">Crear Cliente</h3>
+
+    {{ form.as_p }}
+
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{% url 'index' %}" class="btn btn-secondary">
+            ← Volver
+        </a>
+        <button type="submit" class="btn btn-primary">
+            Guardar ✔
+        </button>
+    </div>
+</form>
+
+
+{%endblock%}
