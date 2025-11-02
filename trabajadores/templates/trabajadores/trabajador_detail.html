@@ -1,0 +1,47 @@
+{% extends "coder/index.html" %}
+{% block titulo %}Detalle Trabajador{% endblock %}
+
+{% block contenido %}
+<div class="container py-4">
+  <div class="card shadow-sm w-75 mx-auto">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">
+        {{ object.nombre }} {{ object.apellido }}
+      </h4>
+    </div>
+    <div class="card-body bg-light">
+      <dl class="row mb-0">
+        <dt class="col-sm-4 text-end">RUT:</dt>
+        <dd class="col-sm-8">{{ object.rut }}</dd>
+
+        <dt class="col-sm-4 text-end">Correo:</dt>
+        <dd class="col-sm-8">
+          <a href="mailto:{{ object.correo }}">{{ object.correo }}</a>
+        </dd>
+
+        <dt class="col-sm-4 text-end">Tienda:</dt>
+        <dd class="col-sm-8">{{ object.tienda }}</dd>
+
+        <dt class="col-sm-4 text-end">Fecha de ingreso:</dt>
+        <dd class="col-sm-8">{{ object.fecha_ingreso|date:"d/m/Y" }}</dd>
+
+        <dt class="col-sm-4 text-end">Fecha de creación del registro:</dt>
+        <dd class="col-sm-8">{{ object.fecha_creacion|date:"d/m/Y H:i" }}</dd>
+      </dl>
+    </div>
+    <div class="card-footer d-flex justify-content-between">
+      <a href="{% url 'trabajador_list' %}" class="btn btn-secondary">
+        ← Volver al listado
+      </a>
+      <div>
+        <a href="{% url 'trabajador_edit' object.rut %}" class="btn btn-primary me-2">
+          Editar
+        </a>
+        <a href="{% url 'trabajador_delete' object.rut %}" class="btn btn-danger">
+          Eliminar
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "coder/index.html" %}
+{% block titulo %}Eliminar Trabajador{% endblock %}
+
+{% block contenido %}
+<div class="container py-5">
+  <div class="card w-50 mx-auto shadow-sm border-danger">
+    <div class="card-header bg-danger text-white">
+      <h4 class="mb-0">⚠️ Confirmar eliminación</h4>
+    </div>
+
+    <div class="card-body bg-light">
+      <p class="fs-5">
+        ¿Seguro que deseas eliminar al trabajador
+        <strong>{{ object.nombre }} {{ object.apellido }}</strong>?
+      </p>
+
+      <ul class="list-unstyled mb-3">
+        <li><strong>RUT:</strong> {{ object.rut }}</li>
+        <li><strong>Correo:</strong> {{ object.correo }}</li>
+        <li><strong>Tienda:</strong> {{ object.tienda }}</li>
+        <li><strong>Fecha ingreso:</strong> {{ object.fecha_ingreso|date:"d/m/Y" }}</li>
+      </ul>
+
+      <p class="text-muted">
+        Esta acción no se puede deshacer.
+      </p>
+
+      <form method="post" class="d-flex justify-content-between mt-4">
+        {% csrf_token %}
+        <a href="{% url 'trabajador_list' %}" class="btn btn-secondary">
+          ← Cancelar
+        </a>
+        <button type="submit" class="btn btn-danger">
+          Eliminar definitivamente
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

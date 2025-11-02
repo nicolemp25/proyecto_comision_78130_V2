@@ -1,7 +1,7 @@
 from django.db import models
 
 class Tienda(models.Model):
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=100, unique=True)
     direccion = models.CharField(max_length=255)
     telefono = models.CharField(max_length=20, null=True, blank=True)
     zona = models.CharField(max_length=100, null=True, blank=True)

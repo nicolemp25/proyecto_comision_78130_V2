@@ -1,0 +1,52 @@
+{% extends "coder/index.html" %}
+
+{% block titulo %}Formulario Trabajador{% endblock %}
+
+{% block contenido %}
+
+<form method="POST" id="form-trabajador" class="w-50 mx-auto mt-4 p-4 border rounded shadow-sm bg-white">
+    {% csrf_token %}
+
+    <h3 class="text-center mb-4 text-primary fw-bold">
+        {% if object %}Editar Trabajador{% else %}Registrar Trabajador{% endif %}
+    </h3>
+
+    {{ form.as_p }}
+
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{% url 'trabajador_list' %}" class="btn btn-secondary">← Volver</a>
+
+        {% if object %}
+            <!-- Botón que abre el modal solo en modo edición -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmarModal">
+                Guardar ✔
+            </button>
+        {% else %}
+            <!-- En modo creación, guarda directamente -->
+            <button type="submit" class="btn btn-primary">Guardar ✔</button>
+        {% endif %}
+    </div>
+</form>
+
+<!-- Modal de confirmación (solo visible en modo edición) -->
+{% if object %}
+<div class="modal fade" id="confirmarModal" tabindex="-1" aria-labelledby="confirmarModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="confirmarModalLabel">Confirmar cambios</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas guardar los cambios de este trabajador?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary" form="form-trabajador">Sí, guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

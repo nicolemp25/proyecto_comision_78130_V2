@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-bs-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,81 +8,213 @@
 
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons (opcional para iconitos bonitos) -->
+  <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
   <style>
-    /* Colores base */
     :root{
       --mk-azul:#1b3b6f;
-      --mk-azul-osc:#143054;
+      --mk-azul-osc:#0e2a4d;
       --mk-fondo:#f5f8ff;
+      --mk-card: rgba(255,255,255,.68);
+      --mk-glass-border: rgba(255,255,255,.35);
     }
+
+    /* Dark mode tokens */
+    [data-bs-theme="dark"]{
+      --mk-fondo:#0b1220;
+      --mk-card: rgba(255,255,255,.06);
+      --mk-glass-border: rgba(255,255,255,.12);
+    }
+
     body{ background: var(--mk-fondo); }
 
-    /* Navbar */
+    /* Topbar */
     .topbar{
       background: linear-gradient(90deg, var(--mk-azul), var(--mk-azul-osc));
     }
-    .topbar .nav-link, .navbar-brand{
-      color:#fff!important; opacity:.9;
-    }
-    .topbar .nav-link:hover{ opacity:1; }
+    .topbar .nav-link, .navbar-brand{ color:#fff!important; opacity:.92; }
+    .topbar .nav-link:hover{ opacity:1; transform: translateY(-1px); transition:.15s ease; }
 
-    /* Hero */
+    /* Hero mejorado */
     .hero{
-      min-height: 46vh;
-      background: radial-gradient(1200px 400px at 50% -80px, #e9f1ff 0%, #ffffff 50%, var(--mk-fondo) 100%);
+      position: relative;
+      min-height: 58vh;
       display:flex; align-items:center;
+      overflow: clip;
+      background:
+        radial-gradient(1200px 420px at 50% -120px, #e9f1ff 0%, #ffffff 45%, var(--mk-fondo) 100%),
+        linear-gradient(120deg, rgba(27,59,111,.04), rgba(20,48,84,.04));
     }
-    .tag{ font-size:.85rem; letter-spacing:.08em; }
-    .shadow-soft{ box-shadow: 0 10px 30px rgba(0,0,0,.06); }
+    .hero-gradient{
+      position:absolute; inset:-40% -20% auto -20%;
+      height: 120%;
+      background: conic-gradient(from 180deg at 50% 50%, #8ac5ff33, #8ec5ff00, #b7a6ff22, #8ac5ff33);
+      filter: blur(50px); opacity:.6;
+      animation: spin 22s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Cards */
-    .feature-card{ transition: transform .2s ease, box-shadow .2s ease; }
-    .feature-card:hover{ transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,.08); }
+    /* Blob flotante */
+    .blob{
+      position:absolute; right:-80px; top:10%;
+      width: 420px; height:420px; z-index:0; opacity:.5;
+      filter: blur(2px) saturate(1.2);
+      animation: float 7s ease-in-out infinite;
+    }
+    @keyframes float{
+      0%,100%{ transform: translateY(0) rotate(0deg); }
+      50%{ transform: translateY(-14px) rotate(3deg); }
+    }
+
+    /* Glass card */
+    .glass{
+      background: var(--mk-card);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--mk-glass-border);
+      border-radius: 18px;
+      box-shadow: 0 18px 60px rgba(0,0,0,.08);
+    }
+
+    /* Botones con micro-ripple */
+    .btn{
+      position: relative; overflow: hidden;
+    }
+    .btn:after{
+      content:""; position:absolute; inset:auto; width:0; height:0; border-radius:50%;
+      background: rgba(255,255,255,.35); transform: translate(-50%,-50%); pointer-events:none;
+      opacity:0; transition: opacity .5s, width .5s, height .5s;
+    }
+    .btn:active:after{
+      left: var(--x,50%); top: var(--y,50%);
+      width: 260px; height:260px; opacity:1;
+      transition: 0s;
+    }
+
+    /* Cards con animación */
+    .feature-card{
+      border:0; border-radius:18px;
+      transition: transform .25s ease, box-shadow .25s ease, background .25s;
+      background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.75));
+    }
+    [data-bs-theme="dark"] .feature-card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+    }
+    .feature-card:hover{
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.12);
+    }
+
+    /* Scroll reveal sencillo */
+    .reveal{ opacity:0; transform: translateY(14px); transition: all .6s ease; }
+    .reveal.show{ opacity:1; transform: none; }
 
     /* Footer */
-    footer{ background: #0e1f3a; color:#cfd9ff; }
+    footer{ background:#0e1f3a; color:#cfd9ff; }
+    [data-bs-theme="dark"] footer{ background:#070e1e; color:#aab4e0; }
+
+    /* Accesibilidad: respeta reduced-motion */
+    @media (prefers-reduced-motion: reduce){
+      .hero-gradient, .blob, .feature-card:hover{ animation: none!important; transform: none!important; }
+      .reveal{ transition:none; }
+    }
   </style>
 </head>
 <body>
 
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg topbar py-2">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="{% url 'index' %}">
-        <i class="bi bi-lightning-charge-fill me-2"></i>Mi Proyecto
-      </a>
+<nav class="navbar navbar-expand-lg topbar py-2 position-sticky top-0" style="z-index:1030;">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="{% url 'index' %}">
+      <i class="bi bi-lightning-charge-fill me-2"></i>Mi Proyecto
+    </a>
+
+    <div class="d-flex align-items-center gap-2 order-lg-2">
+      <button id="toggle-theme" class="btn btn-sm btn-outline-light" title="Modo oscuro (T)">
+        <i class="bi bi-moon-stars"></i>
+      </button>
       <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div id="nav" class="collapse navbar-collapse">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="{% url 'cliente_form' %}"><i class="bi bi-person-plus"></i> Cliente Nuevo</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'producto_form' %}"><i class="bi bi-bag-plus"></i> Producto Nuevo</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'tienda_form' %}"><i class="bi bi-shop"></i> Tienda Nueva</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'tienda_list' %}"><i class="bi bi-list-ul"></i> Listado Tiendas</a></li>
-        </ul>
-      </div>
     </div>
-  </nav>
+
+    <div id="nav" class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto position-relative" id="mk-nav">
+        <span id="mk-indicator" class="position-absolute" style="height:2px; background:#fff; bottom:0; left:0; width:0; transition:all .25s ease;"></span>
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'cliente_form' %}active{% endif %}"
+             href="{% url 'cliente_form' %}" data-url="{% url 'cliente_form' %}">
+            <i class="bi bi-person-plus"></i> Cliente Nuevo
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'producto_form' %}active{% endif %}"
+             href="{% url 'producto_form' %}" data-url="{% url 'producto_form' %}">
+            <i class="bi bi-bag-plus"></i> Producto Nuevo
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'tienda_form' %}active{% endif %}"
+             href="{% url 'tienda_form' %}" data-url="{% url 'tienda_form' %}">
+            <i class="bi bi-shop"></i> Tienda Nueva
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'tienda_list' %}active{% endif %}"
+             href="{% url 'tienda_list' %}" data-url="{% url 'tienda_list' %}">
+            <i class="bi bi-list-ul"></i> Listado Tiendas
+            {% if tiendas_count %}<span class="badge bg-light text-dark ms-1">{{ tiendas_count }}</span>{% endif %}
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'trabajador_list' %}active{% endif %}"
+             href="{% url 'trabajador_list' %}" data-url="{% url 'trabajador_list' %}">
+            <i class="bi bi-people"></i> Listado Trabajadores
+            {% if trabajadores_count %}<span class="badge bg-light text-dark ms-1">{{ trabajadores_count }}</span>{% endif %}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
 
 
   {% block contenido %}
   <!-- Hero -->
   <section class="hero">
-    <div class="container py-5">
+    <div class="hero-gradient"></div>
+    <!-- SVG blob decorativo -->
+    <svg class="blob" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g transform="translate(300,300)">
+        <path d="M134.1,-167.4C170.7,-143.2,193.5,-96.5,202.3,-48.5C211, -0.5,205.6, 48.6,184.7, 89.5C163.8,130.4,127.4,163.1,86.6,184.6C45.8,206.1,0.6,216.3,-44,214.5C-88.6,212.7,-131.6,198.8,-166.7,170.5C-201.9,142.3,-229.2,99.7,-238.7,53.1C-248.3,6.4,-240,-44.2,-217.6,-87.2C-195.2,-130.2,-158.7,-165.6,-116,-188.8C-73.2,-212,-24.3,-223,22.8,-212.8C70,-202.7,116.5,-171.6,134.1,-167.4Z"
+              fill="url(#grad)"/>
+      </g>
+      <defs>
+        <linearGradient id="grad" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stop-color="#8ac5ff"/>
+          <stop offset="100%" stop-color="#b7a6ff"/>
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <div class="container py-5 position-relative" style="z-index:1">
       <div class="row align-items-center g-4">
-        <div class="col-lg-7">
-          <span class="badge text-bg-primary-subtle border border-primary-subtle tag shadow-soft">Django + Bootstrap 5</span>
+        <div class="col-lg-7 reveal">
+          <span class="badge text-bg-primary-subtle border border-primary-subtle shadow-sm">Django + Bootstrap 5</span>
           <h1 class="display-5 fw-bold mt-3 text-dark">Bienvenido a Mi Proyecto Django</h1>
-          <p class="lead text-secondary mt-2">
-            Aprende paso a paso a construir sitios web modernos con formularios,
-            validaciones y un diseño limpio.
+          <p class="lead text-secondary mt-2 mb-4">
+            Construye interfaces modernas con formularios, validaciones y micro-interacciones elegantes.
           </p>
 
-          <div class="d-flex gap-2 mt-3">
+          <div class="d-flex flex-wrap gap-2">
             <a href="{% url 'cliente_form' %}" class="btn btn-primary">
               <i class="bi bi-person-plus me-1"></i> Crear Cliente
             </a>
@@ -95,21 +227,22 @@
           </div>
         </div>
 
-        <div class="col-lg-5">
-          <div class="card border-0 shadow-soft">
-            <div class="card-body p-4">
-              <h5 class="fw-semibold mb-3">Accesos rápidos</h5>
-              <div class="list-group list-group-flush">
-                <a class="list-group-item list-group-item-action" href="{% url 'cliente_form' %}">
-                  <i class="bi bi-person-fill-add me-2"></i> Formulario de Cliente
-                </a>
-                <a class="list-group-item list-group-item-action" href="{% url 'producto_form' %}">
-                  <i class="bi bi-bag-fill me-2"></i> Formulario de Producto
-                </a>
-                <a class="list-group-item list-group-item-action" href="{% url 'tienda_form' %}">
-                  <i class="bi bi-shop-window me-2"></i> Formulario de Tienda
-                </a>
-              </div>
+        <div class="col-lg-5 reveal">
+          <div class="glass p-4">
+            <h5 class="fw-semibold mb-3"><i class="bi bi-stars me-1"></i> Accesos rápidos</h5>
+            <div class="list-group list-group-flush">
+              <a class="list-group-item list-group-item-action" href="{% url 'cliente_form' %}">
+                <i class="bi bi-person-fill-add me-2"></i> Formulario de Cliente
+              </a>
+              <a class="list-group-item list-group-item-action" href="{% url 'producto_form' %}">
+                <i class="bi bi-bag-fill me-2"></i> Formulario de Producto
+              </a>
+              <a class="list-group-item list-group-item-action" href="{% url 'tienda_form' %}">
+                <i class="bi bi-shop-window me-2"></i> Formulario de Tienda
+              </a>
+              <a class="list-group-item list-group-item-action" href="{% url 'trabajador_list' %}">
+                <i class="bi bi-people me-2"></i> Listado de Trabajadores
+              </a>
             </div>
           </div>
         </div>
@@ -121,37 +254,31 @@
   <section class="py-5">
     <div class="container">
       <div class="row g-4">
-        <div class="col-md-4">
-          <div class="card feature-card border-0 shadow-soft h-100">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <i class="bi bi-speedometer2 fs-3 text-primary me-2"></i>
-                <h5 class="mb-0">Rápido</h5>
-              </div>
-              <p class="text-secondary mb-0">Responde de forma ágil y eficiente con buenas prácticas en vistas y formularios.</p>
+        <div class="col-md-4 reveal">
+          <div class="feature-card h-100 p-4">
+            <div class="d-flex align-items-center mb-2">
+              <i class="bi bi-speedometer2 fs-3 text-primary me-2"></i>
+              <h5 class="mb-0">Rápido</h5>
             </div>
+            <p class="text-secondary mb-0">Respuestas ágiles con buenas prácticas en vistas, formularios y templates.</p>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card feature-card border-0 shadow-soft h-100">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <i class="bi bi-shield-lock fs-3 text-primary me-2"></i>
-                <h5 class="mb-0">Seguro</h5>
-              </div>
-              <p class="text-secondary mb-0">CSRF, validaciones y widgets para entradas seguras y limpias.</p>
+        <div class="col-md-4 reveal">
+          <div class="feature-card h-100 p-4">
+            <div class="d-flex align-items-center mb-2">
+              <i class="bi bi-shield-lock fs-3 text-primary me-2"></i>
+              <h5 class="mb-0">Seguro</h5>
             </div>
+            <p class="text-secondary mb-0">CSRF, validaciones, widgets y confirmaciones elegantes (modales) al editar/eliminar.</p>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card feature-card border-0 shadow-soft h-100">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <i class="bi bi-graph-up-arrow fs-3 text-primary me-2"></i>
-                <h5 class="mb-0">Escalable</h5>
-              </div>
-              <p class="text-secondary mb-0">Estructura preparada para listar, crear y ampliar módulos fácilmente.</p>
+        <div class="col-md-4 reveal">
+          <div class="feature-card h-100 p-4">
+            <div class="d-flex align-items-center mb-2">
+              <i class="bi bi-graph-up-arrow fs-3 text-primary me-2"></i>
+              <h5 class="mb-0">Escalable</h5>
             </div>
+            <p class="text-secondary mb-0">Estructura lista para CRUDs, filtros, paginación y módulos adicionales.</p>
           </div>
         </div>
       </div>
@@ -167,5 +294,32 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Ripple (guarda coordenadas de click)
+    document.addEventListener('click', e=>{
+      const t = e.target.closest('.btn'); if(!t) return;
+      const r = t.getBoundingClientRect();
+      t.style.setProperty('--x', (e.clientX - r.left)+'px');
+      t.style.setProperty('--y', (e.clientY - r.top)+'px');
+    });
+
+    // Scroll reveal simple
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
+      });
+    }, {threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+
+    // Toggle dark/light con persistencia
+    const root = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    if(saved) root.setAttribute('data-bs-theme', saved);
+    document.getElementById('toggle-theme').addEventListener('click', ()=>{
+      const current = root.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-bs-theme', current);
+      localStorage.setItem('theme', current);
+    });
+  </script>
 </body>
 </html>
