@@ -124,7 +124,7 @@
 </head>
 <body>
 
-  <!-- Navbar -->
+ <!-- Navbar -->
 <nav class="navbar navbar-expand-lg topbar py-2 position-sticky top-0" style="z-index:1030;">
   <div class="container">
     <a class="navbar-brand fw-bold" href="{% url 'index' %}">
@@ -144,6 +144,7 @@
       <ul class="navbar-nav ms-auto position-relative" id="mk-nav">
         <span id="mk-indicator" class="position-absolute" style="height:2px; background:#fff; bottom:0; left:0; width:0; transition:all .25s ease;"></span>
 
+        <!-- Secciones principales -->
         <li class="nav-item">
           <a class="nav-link {% if request.resolver_match.url_name == 'cliente_form' %}active{% endif %}"
              href="{% url 'cliente_form' %}" data-url="{% url 'cliente_form' %}">
@@ -180,6 +181,42 @@
             {% if trabajadores_count %}<span class="badge bg-light text-dark ms-1">{{ trabajadores_count }}</span>{% endif %}
           </a>
         </li>
+
+        <!-- Bloque de autenticación -->
+        {% if user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+              {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}" class="rounded-circle me-2" style="width:28px; height:28px; object-fit:cover;">
+              {% else %}
+                <i class="bi bi-person-circle me-1"></i>
+              {% endif %}
+              {{ user.username }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="{% url 'profile_detail' %}"><i class="bi bi-person"></i> Mi perfil</a></li>
+              <li><a class="dropdown-item" href="{% url 'profile_edit' %}"><i class="bi bi-gear"></i> Editar perfil</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <form action="{% url 'logout' %}" method="post" class="m-0">
+                  {% csrf_token %}
+                  <button type="submit" class="dropdown-item text-danger"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</button>
+                </form>
+              </li>
+            </ul>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">
+              <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'register' %}">
+              <i class="bi bi-person-plus"></i> Registrarse
+            </a>
+          </li>
+        {% endif %}
       </ul>
     </div>
   </div>

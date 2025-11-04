@@ -2,11 +2,13 @@ from django.shortcuts import render, redirect
 from coder.forms import *
 from coder.models import Tienda
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
     return render(request,"coder/index.html")
 
+@login_required
 def crear_cliente(request):
     if request.method == "POST":
         form = ClienteForm(request.POST)
@@ -18,6 +20,7 @@ def crear_cliente(request):
 
     return render(request, "coder/cliente_form.html", {'form': form})
 
+@login_required
 def crear_producto(request):
     if request.method == "POST":
         form = ProductoForm(request.POST)
@@ -29,6 +32,7 @@ def crear_producto(request):
 
     return render(request, "coder/producto_form.html", {"form": form})
 
+@login_required
 def crear_tienda(request):
     if request.method == "POST":
         form = TiendaForm(request.POST)

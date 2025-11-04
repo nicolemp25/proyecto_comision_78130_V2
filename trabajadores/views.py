@@ -1,12 +1,11 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.db.models import Q
-
 from trabajadores.forms import TrabajadorForm
 from trabajadores.models import Trabajador
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-
-class TrabajadorListView(ListView):
+class TrabajadorListView(LoginRequiredMixin, ListView):
     model = Trabajador
     template_name = 'trabajadores/trabajador_list.html'
     context_object_name = 'trabajadores'
@@ -25,14 +24,14 @@ class TrabajadorListView(ListView):
         return qs
 
 
-class TrabajadorCreateView(CreateView):
+class TrabajadorCreateView(LoginRequiredMixin, CreateView):
     model = Trabajador
     form_class = TrabajadorForm
     template_name = 'trabajadores/trabajador_form.html'
     success_url = reverse_lazy('trabajador_list')
 
 
-class TrabajadorUpdateView(UpdateView):
+class TrabajadorUpdateView(LoginRequiredMixin, UpdateView):
     model = Trabajador
     form_class = TrabajadorForm
     template_name = 'trabajadores/trabajador_form.html'
@@ -42,7 +41,7 @@ class TrabajadorUpdateView(UpdateView):
     slug_url_kwarg = 'rut'
 
 
-class TrabajadorDeleteView(DeleteView):
+class TrabajadorDeleteView(LoginRequiredMixin, DeleteView):
     model = Trabajador
     template_name = 'trabajadores/trabajador_confirm_delete.html'
     success_url = reverse_lazy('trabajador_list')
@@ -50,7 +49,7 @@ class TrabajadorDeleteView(DeleteView):
     slug_url_kwarg = 'rut'
 
 
-class TrabajadorDetailView(DetailView):
+class TrabajadorDetailView(LoginRequiredMixin, DetailView):
     model = Trabajador
     template_name = 'trabajadores/trabajador_detail.html'
     slug_field = 'rut'

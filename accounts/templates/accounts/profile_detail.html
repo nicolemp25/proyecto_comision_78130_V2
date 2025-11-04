@@ -1,0 +1,34 @@
+{% extends "coder/index.html" %}
+{% block titulo %}Mi perfil{% endblock %}
+{% block contenido %}
+<div class="container py-5 d-flex justify-content-center">
+  <div class="card shadow-sm border-0" style="max-width:720px; width:100%;">
+    <div class="card-body p-5">
+      <div class="d-flex align-items-center mb-4">
+        {% if user.profile.avatar %}
+          <img src="{{ user.profile.avatar.url }}" alt="avatar" class="rounded-circle me-3" style="width:90px; height:90px; object-fit:cover;">
+        {% endif %}
+        <div>
+          <h3 class="fw-bold">{{ user.username }}</h3>
+          <p class="text-muted mb-0">{{ user.email }}</p>
+        </div>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <strong>País:</strong> {{ user.profile.pais|default:"—" }}
+        </div>
+        <div class="col-md-6">
+          <strong>Fecha nacimiento:</strong> {{ user.profile.fecha_de_nacimiento|date:"d/m/Y"|default:"—" }}
+        </div>
+        <div class="col-12">
+          <strong>Dirección:</strong> {{ user.profile.direccion|default:"—" }}
+        </div>
+      </div>
+      <div class="mt-4 d-flex justify-content-between">
+        <a href="{% url 'profile_edit' %}" class="btn btn-primary">Editar perfil</a>
+        <a href="{% url 'logout' %}" class="btn btn-outline-danger">Cerrar sesión</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
