@@ -1,0 +1,90 @@
+{% extends "coder/index.html" %}
+{% block titulo %}Iniciar sesión{% endblock %}
+
+{% block contenido %}
+<div class="container py-5 d-flex justify-content-center">
+  <div class="card shadow-sm border-0" style="max-width:520px; width:100%; border-radius:16px;">
+    <div class="card-body p-4 p-md-5">
+
+      <div class="text-center mb-3">
+        <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
+             style="width:54px;height:54px;background:rgba(13,110,253,.12);">
+          <i class="bi bi-box-arrow-in-right fs-4 text-primary"></i>
+        </div>
+        <h3 class="fw-bold mb-0 text-primary">Iniciar sesión</h3>
+      </div>
+
+      <form method="post" id="loginForm" novalidate>
+        {% csrf_token %}
+        {% if request.GET.next %}
+          <input type="hidden" name="next" value="{{ request.GET.next }}">
+        {% endif %}
+
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger small">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <!-- Usuario -->
+        <div class="form-floating mb-3">
+          {{ form.username }}
+          <label>Usuario</label>
+          {% if form.username.errors %}
+            <div class="text-danger small mt-1">{{ form.username.errors }}</div>
+          {% endif %}
+        </div>
+
+        <!-- Contraseña -->
+        <div class="form-floating mb-4 position-relative">
+          {{ form.password }}
+          <label>Contraseña</label>
+          <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2"
+                  id="togglePwd">
+            <i class="bi bi-eye-slash"></i>
+          </button>
+          {% if form.password.errors %}
+            <div class="text-danger small mt-1">{{ form.password.errors }}</div>
+          {% endif %}
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center">
+          <a href="{% url 'index' %}" class="btn btn-outline-secondary">← Volver</a>
+          <button type="submit" class="btn btn-primary">
+            Entrar <i class="bi bi-arrow-right-short ms-1"></i>
+          </button>
+        </div>
+
+        <div class="text-center mt-3">
+          <small class="text-muted">
+            ¿No tienes cuenta? <a href="{% url 'register' %}">Regístrate</a>
+          </small>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Aplica Bootstrap a inputs + floating labels
+  (function () {
+    const form = document.getElementById('loginForm');
+    form.querySelectorAll('input').forEach(inp => {
+      inp.classList.add('form-control');
+      if (!inp.getAttribute('placeholder')) inp.setAttribute('placeholder', ' ');
+    });
+  })();
+
+  // Ver/ocultar contraseña
+  (function () {
+    const btn = document.getElementById('togglePwd');
+    const pwd = document.getElementById('id_password');
+    if (!btn || !pwd) return;
+    btn.addEventListener('click', () => {
+      const isPwd = pwd.type === 'password';
+      pwd.type = isPwd ? 'text' : 'password';
+      btn.innerHTML = isPwd ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+      pwd.focus();
+    });
+  })();
+</script>
+{% endblock %}
