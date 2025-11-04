@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "coder",
     "trabajadores",
+    "accounts",
+    "widget_tweaks",
 ]
 
 MIDDLEWARE = [
@@ -123,7 +125,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-INSTALLED_APPS += ["accounts"]
+#INSTALLED_APPS += ["accounts"]
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "profile_detail"
 LOGOUT_REDIRECT_URL = "login"

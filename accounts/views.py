@@ -31,5 +31,7 @@ def profile_edit(request):
         pform = ProfileForm(instance=request.user.profile)
     return render(request, "accounts/profile_edit.html", {"uform": uform, "pform": pform})
 
+def forgot_password(request):
+    return render(request, "accounts/forgot_password.html")
 
 # Create your views here.
