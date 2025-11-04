@@ -1,20 +1,125 @@
 {% extends "coder/index.html" %}
-{% block titulo %}Registro{% endblock %}
+{% block titulo %}Crear cuenta{% endblock %}
+
 {% block contenido %}
 <div class="container py-5 d-flex justify-content-center">
-  <div class="card shadow-sm border-0" style="max-width:420px; width:100%;">
-    <div class="card-body p-4">
-      <h4 class="text-center mb-4">Crear cuenta</h4>
-      <form method="post">
+  <div class="card shadow-sm border-0" style="max-width:480px;width:100%;border-radius:16px;">
+    <div class="card-body p-4 p-md-5">
+
+      <h4 class="fw-bold text-center mb-3">Crear cuenta</h4>
+      <p class="text-muted text-center mb-4">Completa tus datos para registrarte</p>
+
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger py-2">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      <form method="post" novalidate>
         {% csrf_token %}
-        {{ form.non_field_errors }}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-success w-100">Registrarse</button>
-      </form>
-      <div class="text-center mt-3">
-        <a href="{% url 'login' %}">¿Ya tienes cuenta? Inicia sesión</a>
-      </div>
+
+        <!-- Username -->
+        <div class="form-floating mb-3">
+          <input type="text"
+                 name="username"
+                 id="id_username"
+                 class="form-control{% if form.username.errors %} is-invalid{% endif %}"
+                 placeholder=" "
+                 value="{{ form.username.value|default_if_none:'' }}">
+          <label for="id_username">Usuario</label>
+          {% if form.username.errors %}
+            <div class="invalid-feedback">{{ form.username.errors|join:", " }}</div>
+          {% endif %}
+          {% if form.username.help_text %}
+            <div class="form-text">{{ form.username.help_text|safe }}</div>
+          {% endif %}
+        </div>
+
+        <!-- Email -->
+        <div class="form-floating mb-3">
+          <input type="email"
+                 name="email"
+                 id="id_email"
+                 class="form-control{% if form.email.errors %} is-invalid{% endif %}"
+                 placeholder=" "
+                 value="{{ form.email.value|default_if_none:'' }}">
+          <label for="id_email">Email</label>
+          {% if form.email.errors %}
+            <div class="invalid-feedback">{{ form.email.errors|join:", " }}</div>
+          {% endif %}
+        </div>
+
+<!-- Password 1 -->
+<div class="mb-3">
+  <div class="input-group">
+    <div class="form-floating flex-grow-1">
+      <input type="password"
+             name="password1"
+             id="id_password1"
+             class="form-control{% if form.password1.errors %} is-invalid{% endif %}"
+             placeholder=" ">
+      <label for="id_password1">Contraseña</label>
     </div>
+    <button type="button" class="btn btn-outline-secondary" id="togglePwd1">🙈</button>
   </div>
+  {% if form.password1.errors %}
+    <div class="invalid-feedback d-block">{{ form.password1.errors|join:", " }}</div>
+  {% endif %}
+  {% if form.password1.help_text %}
+    <div class="form-text small mt-1">{{ form.password1.help_text|safe }}</div>
+  {% endif %}
 </div>
+
+<!-- Password 2 -->
+<div class="mb-3">
+  <div class="input-group">
+    <div class="form-floating flex-grow-1">
+      <input type="password"
+             name="password2"
+             id="id_password2"
+             class="form-control{% if form.password2.errors %} is-invalid{% endif %}"
+             placeholder=" ">
+      <label for="id_password2">Confirmar contraseña</label>
+    </div>
+    <button type="button" class="btn btn-outline-secondary" id="togglePwd2">🙈</button>
+  </div>
+  {% if form.password2.errors %}
+    <div class="invalid-feedback d-block">{{ form.password2.errors|join:", " }}</div>
+  {% endif %}
+</div>
+
+<script>
+  // Mostrar / ocultar contraseñas sin superponerse
+  (function () {
+    const buttons = [
+      {btn: 'togglePwd1', input: 'id_password1'},
+      {btn: 'togglePwd2', input: 'id_password2'}
+    ];
+    buttons.forEach(({btn, input}) => {
+      const b = document.getElementById(btn);
+      const i = document.getElementById(input);
+      if (b && i) {
+        b.addEventListener('click', () => {
+          const show = i.type === 'password';
+          i.type = show ? 'text' : 'password';
+          b.textContent = show ? '👁' : '🙈';
+        });
+      }
+    });
+  })();
+</script>
+
+<!-- Botón de registro -->
+<div class="mt-4">
+  <button type="submit" class="btn btn-success w-100 py-2">
+    Registrarse
+  </button>
+</div>
+
+<!-- Enlace inferior -->
+<div class="text-center mt-3">
+  <span class="text-muted">¿Ya tienes cuenta?</span>
+  <a href="{% url 'login' %}">Inicia sesión</a>
+</div>
+
+
+
 {% endblock %}

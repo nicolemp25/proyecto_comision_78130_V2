@@ -3,36 +3,38 @@
 
 {% block contenido %}
 <div class="container py-5 d-flex justify-content-center">
-  <div class="card shadow-sm border-0" style="max-width:920px;width:100%;border-radius:16px;">
+  <div class="card shadow-sm border-0" style="max-width:720px; width:100%; border-radius:16px;">
     <div class="card-body p-4 p-md-5">
 
-      <!-- Header -->
-      <div class="d-flex align-items-center gap-3 gap-md-4 mb-4">
-        {% if user.avatar %}
-          <img src="{{ user.avatar.url }}" alt="Avatar" class="rounded-circle"
-               style="width:80px;height:80px;object-fit:cover;">
-        {% else %}
-          <div class="rounded-circle d-flex align-items-center justify-content-center bg-primary-subtle"
-               style="width:80px;height:80px;">
-            <i class="bi bi-person fs-1 text-primary"></i>
-          </div>
-        {% endif %}
-
-        <div class="flex-grow-1">
-          <h4 class="fw-bold mb-1">{{ user.username }}</h4>
-          <div class="text-muted small">{{ user.email|default:"—" }}</div>
+      <!-- Encabezado con avatar -->
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <div class="position-relative">
+          {% if user.profile.avatar %}
+            <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="rounded-circle"
+                 style="width:84px;height:84px;object-fit:cover;">
+          {% else %}
+            <div class="rounded-circle d-flex align-items-center justify-content-center bg-primary-subtle"
+                 style="width:84px;height:84px;">
+              <i class="bi bi-person fs-1 text-primary"></i>
+            </div>
+          {% endif %}
         </div>
 
-        <div class="ms-auto d-none d-md-flex gap-2">
+        <div>
+          <h3 class="fw-bold mb-0">{{ user.username }}</h3>
+
+        <div class="text-muted medium">
+          {{ user.first_name }} {{ user.last_name }}
+        </div>
+
+
+          <div class="text-muted">{{ user.email }}</div>
+        </div>
+
+        <div class="ms-auto">
           <a href="{% url 'profile_edit' %}" class="btn btn-primary">
             <i class="bi bi-pencil-square me-1"></i> Editar perfil
           </a>
-          <form action="{% url 'logout' %}" method="post" class="m-0">
-            {% csrf_token %}
-            <button class="btn btn-outline-danger">
-              <i class="bi bi-box-arrow-right me-1"></i> Cerrar sesión
-            </button>
-          </form>
         </div>
       </div>
 
@@ -40,37 +42,40 @@
       <div class="row g-3">
         <div class="col-md-6">
           <div class="border rounded p-3 h-100">
-            <div class="text-muted small mb-1"><i class="bi bi-flag me-1"></i>País</div>
-            <div class="fw-semibold">{{ user.pais|default:"—" }}</div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="border rounded p-3 h-100">
-            <div class="text-muted small mb-1"><i class="bi bi-calendar3 me-1"></i>Fecha nacimiento</div>
+            <div class="text-muted small">País</div>
             <div class="fw-semibold">
-              {% if user.fecha_de_nacimiento %}{{ user.fecha_de_nacimiento|date:"d/m/Y" }}{% else %}—{% endif %}
+              {{ user.profile.pais|default:"—" }}
             </div>
           </div>
         </div>
+
+        <div class="col-md-6">
+          <div class="border rounded p-3 h-100">
+            <div class="text-muted small">Fecha de nacimiento</div>
+            <div class="fw-semibold">
+              {% if user.profile.fecha_de_nacimiento %}
+                {{ user.profile.fecha_de_nacimiento|date:"d/m/Y" }}
+              {% else %}—{% endif %}
+            </div>
+          </div>
+        </div>
+
         <div class="col-12">
-          <div class="border rounded p-3">
-            <div class="text-muted small mb-1"><i class="bi bi-geo-alt me-1"></i>Dirección</div>
-            <div class="fw-semibold">{{ user.direccion|default:"—" }}</div>
+          <div class="border rounded p-3 h-100">
+            <div class="text-muted small">Dirección</div>
+            <div class="fw-semibold">
+              {{ user.profile.direccion|default:"—" }}
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Acciones (mobile) -->
-      <div class="d-flex d-md-none gap-2 mt-4">
-        <a href="{% url 'profile_edit' %}" class="btn btn-primary flex-fill">
-          <i class="bi bi-pencil-square me-1"></i> Editar perfil
+      <!-- Acciones -->
+      <div class="d-flex justify-content-between align-items-center mt-4">
+        <a href="{% url 'index' %}" class="btn btn-outline-secondary">← Volver al inicio</a>
+        <a href="{% url 'logout' %}" class="btn btn-outline-danger">
+          <i class="bi bi-box-arrow-right me-1"></i> Cerrar sesión
         </a>
-        <form action="{% url 'logout' %}" method="post" class="m-0 flex-fill">
-          {% csrf_token %}
-          <button class="btn btn-outline-danger w-100">
-            <i class="bi bi-box-arrow-right me-1"></i> Cerrar sesión
-          </button>
-        </form>
       </div>
 
     </div>
