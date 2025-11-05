@@ -294,35 +294,54 @@
     <div class="container">
       <div class="row g-4">
         <div class="col-md-4 reveal">
-          <div class="feature-card h-100 p-4">
-            <div class="d-flex align-items-center mb-2">
+          <div class="feature-card h-100 p-4 text-center">
+            <div class="d-flex align-items-center justify-content-center mb-2">
               <i class="bi bi-speedometer2 fs-3 text-primary me-2"></i>
               <h5 class="mb-0">Rápido</h5>
             </div>
-            <p class="text-secondary mb-0">Respuestas ágiles con buenas prácticas en vistas, formularios y templates.</p>
+            <p class="text-secondary mb-3">
+              Respuestas ágiles con buenas prácticas en vistas, formularios y templates.
+            </p>
+            <a href="{% url 'cliente_form' %}" class="btn btn-outline-primary btn-sm">
+              Ver más
+            </a>
           </div>
         </div>
+
+        <!-- 💛 Aquí va el botón "Sobre mí" -->
         <div class="col-md-4 reveal">
-          <div class="feature-card h-100 p-4">
-            <div class="d-flex align-items-center mb-2">
-              <i class="bi bi-shield-lock fs-3 text-primary me-2"></i>
-              <h5 class="mb-0">Seguro</h5>
+          <div class="feature-card h-100 p-4 text-center">
+            <div class="d-flex align-items-center justify-content-center mb-2">
+              <i class="bi bi-person-badge fs-3 text-warning me-2"></i>
+              <h5 class="mb-0">Sobre mí</h5>
             </div>
-            <p class="text-secondary mb-0">CSRF, validaciones, widgets y confirmaciones elegantes (modales) al editar/eliminar.</p>
+            <p class="text-secondary mb-3">
+              Conoce más sobre el creador de este proyecto y su pasión por la automatización, el desarrollo y la tecnología.
+            </p>
+            <a href="{% url 'about' %}" class="btn btn-warning text-dark fw-semibold">
+              Ir a Sobre mí →
+            </a>
           </div>
         </div>
+
         <div class="col-md-4 reveal">
-          <div class="feature-card h-100 p-4">
-            <div class="d-flex align-items-center mb-2">
+          <div class="feature-card h-100 p-4 text-center">
+            <div class="d-flex align-items-center justify-content-center mb-2">
               <i class="bi bi-graph-up-arrow fs-3 text-primary me-2"></i>
               <h5 class="mb-0">Escalable</h5>
             </div>
-            <p class="text-secondary mb-0">Estructura lista para CRUDs, filtros, paginación y módulos adicionales.</p>
+            <p class="text-secondary mb-3">
+              Estructura lista para CRUDs, filtros, paginación y módulos adicionales.
+            </p>
+            <a href="{% url 'tienda_list' %}" class="btn btn-outline-primary btn-sm">
+              Ver más
+            </a>
           </div>
         </div>
       </div>
     </div>
   </section>
+
   {% endblock %}
 
   <!-- Footer -->

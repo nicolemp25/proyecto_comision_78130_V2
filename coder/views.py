@@ -56,3 +56,6 @@ def lista_tiendas(request):
         )
     tiendas = qs.order_by('nombre')  # O '-id' si prefieres las más recientes
     return render(request, 'coder/tienda_list.html', {'tiendas': tiendas, 'query': q})
+
+def about(request):
+    return render(request, "coder/about.html")

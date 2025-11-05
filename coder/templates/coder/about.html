@@ -1,0 +1,50 @@
+{% extends "coder/index.html" %}
+{% load static %}
+
+{% block titulo %} Sobre mí {% endblock %}
+
+{% block contenido %}
+<div class="container mt-5">
+  <div class="card shadow-sm border-0 w-75 mx-auto">
+    <div class="card-body text-center">
+
+      <img src="/media/avatars/nico_lemp/default.png"
+           alt="Foto de perfil"
+           class="rounded-circle mb-4 shadow-sm"
+           width="160">
+
+      <h2 class="text-primary mb-3 fw-bold">Sobre mí</h2>
+
+      <p class="lead mb-4">
+        Hola, soy <strong>Nicolás Lemp</strong>, Ingeniero Civil Industrial titulado de la 
+        <strong>Universidad de Santiago de Chile</strong>.  
+        Actualmente me desempeño como <strong>consultor SAP Business One</strong>, especializado en 
+        <strong>SQL</strong> y <strong>HANA</strong>.
+      </p>
+
+      <p class="mb-4">
+        Aunque el mundo del <strong>HTML</strong> y <strong>Python</strong> es relativamente nuevo para mí, 
+        descubrirlo ha sido una experiencia fascinante.  
+        Creo que cuando uno domina un lenguaje, se abre la puerta para entender otros más fácilmente, 
+        aunque cada uno tenga su propio estilo y forma de pensar.
+      </p>
+
+      <p class="mb-4">
+        Este curso me ha sorprendido gratamente, no solo por su mirada práctica sobre Python, 
+        sino también por mostrar la enorme cantidad de posibilidades que existen en este mundo del desarrollo.  
+        Me entusiasma ver cómo todo puede conectarse — desde una base de datos o un sistema ERP, 
+        hasta una página web o una plataforma completa que integre distintas ideas.
+      </p>
+
+      <blockquote class="blockquote text-muted fst-italic border-start border-4 ps-3 mb-4">
+        “Agradecido por esta oportunidad de aprender, crear y conectar distintos mundos
+        dentro de la tecnología.” PD: 'GPT le puso un poco más de pasión jaja'
+      </blockquote>
+
+      <a href="{% url 'index' %}" class="btn btn-outline-primary mt-2">
+        ← Volver al inicio
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
