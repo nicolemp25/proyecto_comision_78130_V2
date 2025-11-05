@@ -1,34 +1,13 @@
-# proyecto_comision_78130_V2
-Proyecto curso 78130_V2
-Nicolás Lemp Rojas.
+Video explicativo de la pagina web.
 
-Link de GitHub
-https://github.com/nicolemp25/proyecto_comision_78130_V2
+https://drive.google.com/file/d/1Sy92wQqXHSo8R87Qw4YDuIDm_GTMm_ge/view?usp=drive_link
 
--Se crearon los models.
--En migraron. 
--Se crearon los forms, muy sencillos, para ir entendiendo y enlazando todo. 
--Se agregaron las url.
--Se crearon los html.
+Se tomo la Entrega 3 y se fue completando.
 
-En el Localhost, vemos:
+Hay cositas que se pueden mejorar, como siempre, pero creo que el macro y un par de cosas que uno va eligiendo, si se lograron.
 
-http://localhost:8000/cliente/nuevo
-http://localhost:8000/producto/nuevo
-http://localhost:8000/tienda/nuevo
+Cualquier observacion de la entrega o comentarios para mejorarlo a futuro, son bienvenidas. 
 
-en estos 3 se ingresa información que queda registrada en la base de datos.
-
-Ademas se creo:
-http://localhost:8000/tiendas/
-
-Para ver y buscar las tiendas. 
-
-Esta todo muy simple y se pudo entender bien los pasos de todas las formas.
-Se mejoro los html con IA y se ve mucho mejor.
-
-Si me falta algo, me comentan!
-Espero que asi como va, esta okey.
-Si creo que para el proyecto final, volvere a hacer todo del princio, para mas practica, pero se entiende lo de heredar.
+EL curso estuvo buenisimo, sirve que lo tengamos a futuro disponible ya que es lenguaje nuevo que uno adquiere.
 
 Gracias!!!
